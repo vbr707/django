@@ -1,0 +1,71 @@
+#urls.py
+"""project9 URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/2.1/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path
+from app9 import views
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('index/', views.show),
+    path('fn/', views.display)
+]
+
+
+
+#views.py
+
+from django.shortcuts import render
+
+def show(request):
+    return render(request,"index.html")
+
+def display(request):
+     name = request.POST.get("t1")
+     pwd =request.POST.get("t2")
+
+     if(name =="Ravi" and pwd =="kumar123"):
+         result = "valid"
+     else:
+         result = "invalid"
+
+     return render(request,"index.html",{"result":result})
+     
+     
+     #index.html
+     
+     <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body align="center" bgcolor="#e9967a">
+<form action="/fn/" method="post">
+    {% csrf_token %}
+    <table align="center" border="2" bgcolor="green"> <tr><td>login page</td></tr>
+        <tr><td> <input type="text" name="t1" placeholder="username" required> </td></tr>
+    <br><br>
+   <tr><td> <input type="password" name="t2" placeholder="password" required> </td></tr>
+    <br><br>
+     <tr><td> <input type="submit" value="login"> </td></tr>
+    </table>
+    <br><br>
+
+    {{ result }}
+
+</form>
+</body>
+</html>
