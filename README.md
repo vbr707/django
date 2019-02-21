@@ -1,3 +1,0 @@
-# django
-##own
-###first project
